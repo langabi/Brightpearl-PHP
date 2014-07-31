@@ -18,7 +18,7 @@ return array(
             "httpMethod" => "POST",
             "uri" => "/{account_code}/authorise",
             "summary" => "Retrieve Auth Token (https://www.brightpearl.com/developer/latest/tutorial/getting-started.html)",
-            "responseModel" => "postAuthResponse",
+            "responseModel" => "defaultJsonResponse",
             "parameters" => array(
 
                 "apiAccountCredentials" => array(
@@ -55,13 +55,6 @@ return array(
     */
 
     "models" => array(
-    
-        "postAuthResponse" => array(
-            "type" => "object",
-            "additionalProperties" => array(
-                "location" => "json",
-            ),
-        ),
         
     ),
 );

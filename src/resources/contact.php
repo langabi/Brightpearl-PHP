@@ -23,7 +23,7 @@ return array(
             "httpMethod" => "GET",
             "uri" => "/{apiVersion}/{account_code}/contact-service/contact/{id}",
             "summary" => "Retrieve Contact",
-            "responseModel" => "getContactResponse",
+            "responseModel" => "defaultJsonResponse",
             "parameters" => array(
                 
                 "id" => array(
@@ -45,7 +45,7 @@ return array(
             "httpMethod" => "POST",
             "uri" => "/{apiVersion}/{account_code}/contact-service/contact/",
             "summary" => "Create Contact",
-            "responseModel" => "postContactResponse",
+            "responseModel" => "defaultJsonResponse",
             "parameters" => array(
 
                 "salutation" => array(
@@ -276,7 +276,7 @@ return array(
             "httpMethod" => "GET",
             "uri" => "/{apiVersion}/{account_code}/contact-service/postal-address/{id}",
             "summary" => "Retrieve Contact Address(es)",
-            "responseModel" => "getContactResponse",
+            "responseModel" => "defaultJsonResponse",
             "parameters" => array(
 
                 "id" => array(
@@ -298,7 +298,7 @@ return array(
             "httpMethod" => "POST",
             "uri" => "/{apiVersion}/{account_code}/contact-service/postal-address/",
             "summary" => "Create Contact Address",
-            "responseModel" => "postContactAddressResponse",
+            "responseModel" => "defaultJsonResponse",
             "parameters" => array(
 
                 "addressLine1" => array(
@@ -364,33 +364,5 @@ return array(
 
     "models" => array(
 
-        "getContactResponse" => array(
-            "type" => "object",
-            "additionalProperties" => array(
-                "location" => "json",
-            ),
-        ),
-
-        "postContactResponse" => array(
-            "type" => "object",
-            "additionalProperties" => array(
-                "location" => "json",
-            ),
-        ),
-        
-        "getContactAddressResponse" => array(
-            "type" => "object",
-            "additionalProperties" => array(
-                "location" => "json",
-            ),
-        ),
-        
-        "postContactAddressResponse" => array(
-            "type" => "object",
-            "additionalProperties" => array(
-                "location" => "json",
-            ),
-        ),
-
-    ),
+	),
 );

@@ -23,7 +23,7 @@ return array(
             "httpMethod" => "GET",
             "uri" => "/{apiVersion}/{account_code}/order-service/order/{id}",
             "summary" => "Retrieve order(s) (https://www.brightpearl.com/developer/latest/order/order/get.html)",
-            "responseModel" => "getOrderResponse",
+            "responseModel" => "defaultJsonResponse",
             "parameters" => array(
 
                 "id" => array(
@@ -45,7 +45,7 @@ return array(
             "httpMethod" => "POST",
             "uri" => "/{apiVersion}/{account_code}/order-service/order/",
             "summary" => "Create order(s)",
-            "responseModel" => "postOrderResponse",
+            "responseModel" => "defaultJsonResponse",
             "parameters" => array(
 
                 "orderTypeCode" => array(
@@ -257,20 +257,6 @@ return array(
     */
 
     "models" => array(
-    
-        "getOrderResponse" => array(
-            "type" => "object",
-            "additionalProperties" => array(
-                "location" => "json",
-            ),
-        ),
-        
-        "postOrderResponse" => array(
-            "type" => "object",
-            "additionalProperties" => array(
-                "location" => "json",
-            ),
-        ),
         
     ),
 );

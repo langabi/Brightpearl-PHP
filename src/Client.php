@@ -161,8 +161,7 @@ class Client
     }
 
 	/**
-     * Set headers, adapters, and get encrypted token if needed,
-     * then create Guzzle base client.
+     * Set adapter and create Guzzle base client.
      *
      * @return \GuzzleHttp\Client
      */
@@ -207,7 +206,8 @@ class Client
     
     /**
      * Load service description from resource, add global
-     * parameters and add operations and models.
+     * parameters to operations. Operations and models
+     * added to full description.
      *
      * @param  array $service
      * @param  array $description
@@ -244,7 +244,7 @@ class Client
     }
 
     /**
-     * Set data center and return static for chain.
+     * Set data center.
      *
      * @param  string $dataCenter
      * @return void
@@ -368,8 +368,8 @@ class Client
 
     /**
      * Handle dynamic method calls into the method. 
-     * Use authToken if already set, otherwise request
-     * and set authToken prior to request.
+     * Build client on first api call and compile
+     * settings and parameters.
      *
      * @param  string  $method
      * @param  array   $parameters
@@ -385,7 +385,7 @@ class Client
         			$this->settings;
         
         // if developer secret is set then sign account token
-        // with it (public apps only)
+        // with it (public system apps only)
         if (isset($settings['dev_secret']))
         	$this->signAccountToken($settings);
 

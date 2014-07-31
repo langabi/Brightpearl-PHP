@@ -12,7 +12,7 @@ return array(
     */
 
     "name" => "Brightpearl",
-    
+
     /*
     |--------------------------------------------------------------------------
     | Service Description
@@ -21,9 +21,9 @@ return array(
     | Description of the API service.
     |
     */
-    
+
     "description" => "Brightpearl API",
-    
+
     /*
     |--------------------------------------------------------------------------
     | Service Configurations
@@ -32,12 +32,33 @@ return array(
     | Configuration files of specfic service descriptions to load.
     |
     */
-    
+
     "services" => array(
         "auth",
         "contact",
         "order",
         "product",
+        "integration",
     ),
-    
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default models
+    |--------------------------------------------------------------------------
+    |
+    | Default response models for typical usage of responses
+    |
+    */
+
+    "models" => array(
+    	
+    	"defaultJsonResponse" => array(
+    		"type" => "object",
+            "additionalProperties" => array(
+                "location" => "json",
+            ),
+    	),
+    	
+    ),
+
 );

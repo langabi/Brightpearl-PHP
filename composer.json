@@ -1,6 +1,7 @@
 {
 	"name": "thegenielab/brightpearl",
 	"type": "library",
+	"license": "MIT",
 	"description": "Brightpearl API Guzzle Wrapper",
 	"homepage": "http://github.com/TheGenieLab/Brightpearl-PHP",
 	"authors": [

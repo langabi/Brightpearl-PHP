@@ -23,7 +23,7 @@ return array(
             "httpMethod" => "GET",
             "uri" => "/{apiVersion}/{account_code}/product-service/product/{id}",
             "summary" => "Retrieve product(s)",
-            "responseModel" => "getProductResponse",
+            "responseModel" => "defaultJsonResponse",
             "parameters" => array(
  
                 "id" => array(
@@ -45,7 +45,7 @@ return array(
             "httpMethod" => "POST",
             "uri" => "/{apiVersion}/{account_code}/product-service/product/",
             "summary" => "Create product",
-            "responseModel" => "postProductResponse",
+            "responseModel" => "defaultJsonResponse",
             "parameters" => array(
 
                 "brandId" => array(
@@ -215,7 +215,7 @@ return array(
             "httpMethod" => "GET",
             "uri" => "/{apiVersion}/{account_code}/product-service/brightpearl-category/{id}",
             "summary" => "Retrieve product(s)",
-            "responseModel" => "getProductCategoryResponse",
+            "responseModel" => "defaultJsonResponse",
             "parameters" => array(
 
                 "id" => array(
@@ -237,7 +237,7 @@ return array(
             "httpMethod" => "POST",
             "uri" => "/{apiVersion}/{account_code}/product-service/brightpearl-category/",
             "summary" => "Create product category",
-            "responseModel" => "postProductCategoryResponse",
+            "responseModel" => "defaultJsonResponse",
             "parameters" => array(
 
                 "name" => array(
@@ -260,6 +260,64 @@ return array(
             ),
         ),
 
+        /**
+         *    getProductChannel() method
+         *
+         *    reference: https://www.brightpearl.com/developer/latest/product/channel/get.html
+         */
+        "getProductChannel" => array(
+            "httpMethod" => "GET",
+            "uri" => "/{apiVersion}/{account_code}/product-service/channel/{id}",
+            "summary" => "Create product category",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+
+                "id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "This is the name of the Brightpearl Sales Channel(s) you're looking for",
+                    "required" => false,
+                ),
+
+            ),
+        ),
+
+        /**
+         *    getProductSearch() method
+         *
+         *    reference: https://www.brightpearl.com/developer/latest/product/product/search.html
+         */
+        "getProductSearch" => array(
+            "httpMethod" => "GET",
+            "uri" => "/{apiVersion}/{account_code}/product-service/product-search",
+            "summary" => "Create product category",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+
+                "channelId" => array(
+                    "type" => "integer",
+                    "location" => "query",
+                    "description" => "This is the name of the Brightpearl Sales Channel(s) you're looking for",
+                    "required" => false,
+                ),
+
+				"pageSize" => array(
+					"type" => "integer",
+                    "location" => "query",
+                    "description" => "Set max results per page, default and max setting is 500",
+                    "required" => false,
+				),
+
+				"firstResult" => array(
+					"type" => "integer",
+                    "location" => "query",
+                    "description" => "Pagination pointer",
+                    "required" => false,
+				),
+
+            ),
+        ),
+
     ),
 
     /*
@@ -273,34 +331,6 @@ return array(
     */
 
     "models" => array(
-
-        "getProductResponse" => array(
-            "type" => "object",
-            "additionalProperties" => array(
-                "location" => "json",
-            ),
-        ),
-
-        "postProductResponse" => array(
-            "type" => "object",
-            "additionalProperties" => array(
-                "location" => "json",
-            ),
-        ),
-
-        "getProductCategoryResponse" => array(
-            "type" => "object",
-            "additionalProperties" => array(
-                "location" => "json",
-            ),
-        ),
-
-        "postProductCategoryResponse" => array(
-            "type" => "object",
-            "additionalProperties" => array(
-                "location" => "json",
-            ),
-        ),
 
     ),
 );
