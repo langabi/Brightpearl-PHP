@@ -34,11 +34,13 @@ return array(
     */
 
     "services" => array(
+    	"accounting",
         "auth",
         "contact",
         "order",
         "product",
         "integration",
+        "warehouse",
     ),
 
     /*

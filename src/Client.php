@@ -272,7 +272,25 @@ class Client
 		
 		return ['account_code' => $accountCode, 'account_token' => $token] + compact('timestamp');
 	}
-	
+
+	/**
+     * Public application regular callback handler
+     *
+     * @param  array  $query
+     * @param  string $signature
+     * @return array
+     */
+	public function simpleCallback(array $query, $signature = null)
+	{
+		extract($query);
+		
+		$this->validateRequest(compact('accountCode', 'timestamp'), $signature);
+		
+		$timestamp = $this->callbackDatetime($timestamp);
+		
+		return ['account_code' => $accountCode, 'timestamp' => $timestamp];
+	}
+
 	/**
      * Brightpearl signature validator
      *
@@ -283,14 +301,14 @@ class Client
 	private function validateRequest(array $query, $signature)
 	{
 		$string = $this->settings['dev_secret'];
-		
+
 		ksort($query);
-		
+
 		foreach ($query as $key => $val)
 			$string = $string.$key.'='.$val;
 
 		if ($signature !== hash('sha256', $string))
-			throw new \RuntimeException('Error signature "'.$hash.'"does not match!'); // create proper exception
+			throw new Exception\UnauthorizedException('Error signature "'.$signature.'"does not match!');
 	}
 
 	/**
@@ -304,7 +322,7 @@ class Client
 	private function callbackDatetime($timestamp)
 	{
 		$epoch = floor(((int)$timestamp)/1000);
-		
+
 		return $this->getDatetimeTimestamp($epoch);
 	}
 
@@ -319,7 +337,7 @@ class Client
 	{
 		if (class_exists('Carbon\Carbon'))
 			return new \Carbon\Carbon("@$timestamp");
-			
+
 		return new \DateTime("@$timestamp");
 	}
 

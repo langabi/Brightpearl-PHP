@@ -207,6 +207,28 @@ return array(
         ),
 
         /**
+         *    getProductBrand() method
+         *
+         *    reference: https://www.brightpearl.com/developer/latest/product/brand/get.html
+         */
+        "getProductBrand" => array(
+            "httpMethod" => "GET",
+            "uri" => "/{apiVersion}/{account_code}/product-service/brand/{id}",
+            "summary" => "Retrieve product brand(s)",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+
+                "id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "Product brand id(s) or null for all",
+                    "required" => false,
+                ),
+
+            ),
+        ),
+
+        /**
          *    getProductCategory() method
          *
          *    reference: https://www.brightpearl.com/developer/latest/product/brightpearl-category/get.html
@@ -214,7 +236,7 @@ return array(
         "getProductCategory" => array(
             "httpMethod" => "GET",
             "uri" => "/{apiVersion}/{account_code}/product-service/brightpearl-category/{id}",
-            "summary" => "Retrieve product(s)",
+            "summary" => "Retrieve product category(s)",
             "responseModel" => "defaultJsonResponse",
             "parameters" => array(
 
@@ -318,6 +340,130 @@ return array(
             ),
         ),
 
+        /**
+         *    getProductPriceList() method
+         *
+         *    reference: https://www.brightpearl.com/developer/latest/product/price-list/get.html
+         */
+        "getProductPriceList" => array(
+            "httpMethod" => "GET",
+            "uri" => "/{apiVersion}/{account_code}/product-service/price-list/{id}",
+            "summary" => "Get product price list(s)",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+
+                "id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "This is the id of the product price list(s)",
+                    "required" => false,
+                ),
+
+            ),
+        ),
+
+        /**
+         *    getProductPrice() method
+         *
+         *    reference: https://www.brightpearl.com/developer/latest/product/product-price/get.html
+         */
+        "getProductPrice" => array(
+            "httpMethod" => "GET",
+            "uri" => "/{apiVersion}/{account_code}/product-service/product-price/{id}",
+            "summary" => "Get product price(s)",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+
+                "id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "This is the id of the product(s)",
+                    "required" => true,
+                ),
+
+            ),
+        ),
+
+        /**
+         *    optionsProductPrice() method
+         *
+         *    reference: https://www.brightpearl.com/developer/latest/product/product-price/options.html
+         */
+        "optionsProductPrice" => array(
+            "httpMethod" => "OPTIONS",
+            "uri" => "/{apiVersion}/{account_code}/product-service/product-price/{id}",
+            "summary" => "Get valid product price requests",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+
+                "id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "This is the id of the product(s)",
+                    "required" => false,
+                ),
+
+            ),
+        ),
+
+        /**
+         *    getProductPriceOnList() method
+         *
+         *    reference: https://www.brightpearl.com/developer/latest/product/product-price/get.html
+         */
+        "getProductPriceOnList" => array(
+            "httpMethod" => "GET",
+            "uri" => "/{apiVersion}/{account_code}/product-service/product-price/{id}/price-list/{list-id}",
+            "summary" => "Get product prices",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+
+                "id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "This is the id of the product(s)",
+                    "required" => true,
+                ),
+
+                "list-id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "This is the id of the product list(s)",
+                    "required" => true,
+                ),
+
+            ),
+        ),
+
+        /**
+         *    optionsProductPriceOnList() method
+         *
+         *    reference: https://www.brightpearl.com/developer/latest/product/product-price/options.html
+         */
+        "optionsProductPriceOnList" => array(
+            "httpMethod" => "OPTIONS",
+            "uri" => "/{apiVersion}/{account_code}/product-service/product-price/{id}/price-list/{list-id}",
+            "summary" => "Get valid product price requests",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+
+                "id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "This is the id of the product(s)",
+                    "default" => "*",
+                    "required" => false,
+                ),
+
+                "list-id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "This is the id of the product list(s)",
+                    "required" => true,
+                ),
+
+            ),
+        ),
     ),
 
     /*
