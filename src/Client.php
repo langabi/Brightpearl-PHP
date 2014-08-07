@@ -141,7 +141,7 @@ class Client
         if (!static::$description)
         	static::$description = new Description($this->loadConfig());
 	
-        // sync data center code accross client and description
+        // sync data center code across client and description
         else $this->setDataCenter($this->settings['data_center']);
 
         $this->serviceClient = new GuzzleClient(
@@ -396,6 +396,11 @@ class Client
      */
     public function __call($method, $parameters)
     {
+    	// In cases of Facade using Client->__call() make
+    	// sure methods are handled by Client if they exist
+    	if (method_exists($this, $method))
+    		call_user_func_array([$this, $method], $parameters);
+    
         // build the client on the first call
         if (!$this->serviceClient) $this->buildClient();
 

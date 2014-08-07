@@ -1,8 +1,16 @@
 <?php namespace Brightpearl\Laravel;
 
+use Brightpearl\Exception\UnauthorizedException;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
 class ServiceProvider extends LaravelServiceProvider {
+
+	/**
+	 * Indicates if loading of the provider is deferred.
+	 *
+	 * @var bool
+	 */
+	protected $defer = true;
 
     /**
      * Register the service provider.
@@ -22,6 +30,22 @@ class ServiceProvider extends LaravelServiceProvider {
             } else return new \Brightpearl\Client();
             
         });
+        
+        $app = $this->app;
+        
+        $this->app->error(function(UnauthorizedException $exception) use ($app) {
+			$app['log']->warning($exception);
+		});
     }
+
+	/**
+	 * Get the services provided by the provider.
+	 *
+	 * @return array
+	 */
+	public function provides()
+	{
+		return array('brightpearl');
+	}
 
 }
