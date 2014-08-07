@@ -136,12 +136,13 @@ class Client
     {
         $client = $this->getBaseClient();
 
+		if (!isset($this->settings['data_center'])) return;
+
         if (!static::$description)
         	static::$description = new Description($this->loadConfig());
 	
         // sync data center code accross client and description
-        elseif (isset($this->settings['data_center']))
-        	$this->setDataCenter($this->settings['data_center']);
+        else $this->setDataCenter($this->settings['data_center']);
 
         $this->serviceClient = new GuzzleClient(
         		$client, 
@@ -180,7 +181,7 @@ class Client
      */
     private function loadConfig()
     {
-        $description = $this->loadResource('service-config');
+    	$description = $this->loadResource('service-config');
 
         // initial description building, use api info and build base url
         $description = $description + [
