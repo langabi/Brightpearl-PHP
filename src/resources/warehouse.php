@@ -27,7 +27,7 @@ return array(
             "parameters" => array(
  
                 "id" => array(
-                    "type" => "integer",
+                    "type" => "string",
                     "location" => "uri",
                     "description" => "Id of warehouse(s) to get",
                     "required" => false,
@@ -49,7 +49,7 @@ return array(
             "parameters" => array(
  
                 "id" => array(
-                    "type" => "integer",
+                    "type" => "string",
                     "location" => "uri",
                     "description" => "Id of warehouse(s) to get",
                     "required" => false,

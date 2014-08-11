@@ -27,7 +27,7 @@ return array(
             "parameters" => array(
  
                 "id" => array(
-                    "type" => "integer",
+                    "type" => "string",
                     "location" => "uri",
                     "description" => "Id of tax code(s) to get",
                     "required" => false,
