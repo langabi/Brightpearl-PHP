@@ -25,7 +25,7 @@ return array(
             "summary" => "Retrieve product(s)",
             "responseModel" => "defaultJsonResponse",
             "parameters" => array(
- 
+
                 "id" => array(
                     "type" => "string",
                     "location" => "uri",
@@ -266,7 +266,7 @@ return array(
                     "type" => "string",
                     "location" => "json",
                     "description" => "This is the name of the Brightpearl Category.
-                                      Duplicate names cannot be used at the same level in the hierarchy. 
+                                      Duplicate names cannot be used at the same level in the hierarchy.
                                       Max length 128", // add filter functionality to restrict max length
                     "required" => true,
                 ),
@@ -323,19 +323,19 @@ return array(
                     "required" => false,
                 ),
 
-				"pageSize" => array(
-					"type" => "integer",
+                "pageSize" => array(
+                    "type" => "integer",
                     "location" => "query",
                     "description" => "Set max results per page, default and max setting is 500",
                     "required" => false,
-				),
+                ),
 
-				"firstResult" => array(
-					"type" => "integer",
+                "firstResult" => array(
+                    "type" => "integer",
                     "location" => "query",
                     "description" => "Pagination pointer",
                     "required" => false,
-				),
+                ),
 
             ),
         ),

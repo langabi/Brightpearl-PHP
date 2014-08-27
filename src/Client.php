@@ -9,7 +9,7 @@ use GuzzleHttp\Command\Guzzle\GuzzleClient;
 class Client
 {
     /**
-     * Guzzle base client (stored for testing attachments)
+     * Brightpearl API Version this client currently uses.
      *
      * @var string
      */
@@ -23,7 +23,7 @@ class Client
     private static $description;
 
     /**
-     * Guzzle base client (stored for testing attachments)
+     * Guzzle base client
      *
      * @var \GuzzleHttp\Client
      */
@@ -56,7 +56,7 @@ class Client
      * @var array
      */
     protected $settings;
-        
+
     /**
      * Request header items
      *
@@ -111,7 +111,7 @@ class Client
         $this->settings = $settings;
     }
 
-	/**
+    /**
      * Merge additional settings with existing and save. Overrides
      * existing settings as well.
      *
@@ -128,7 +128,7 @@ class Client
     }
 
     /**
-     * Build new client from service configuration/description.
+     * Build new service client from descriptions.
      *
      * @return void
      */
@@ -136,19 +136,19 @@ class Client
     {
         $client = $this->getBaseClient();
 
-		if (!isset($this->settings['data_center'])) return;
+        if (!isset($this->settings['data_center'])) return;
 
         if (!static::$description)
-        	static::$description = new Description($this->loadConfig());
-	
+            static::$description = new Description($this->loadConfig());
+
         // sync data center code across client and description
         else $this->setDataCenter($this->settings['data_center']);
 
         $this->serviceClient = new GuzzleClient(
-        		$client, 
-        		static::$description, 
-        		['emitter' => $this->baseClient->getEmitter()]
-        	);
+                $client,
+                static::$description,
+                ['emitter' => $this->baseClient->getEmitter()]
+            );
     }
 
     /**
@@ -158,21 +158,21 @@ class Client
      */
     private function getBaseClient()
     {
-    	return $this->baseClient ?: $this->baseClient = $this->loadBaseClient();
+        return $this->baseClient ?: $this->baseClient = $this->loadBaseClient();
     }
 
-	/**
+    /**
      * Set adapter and create Guzzle base client.
      *
      * @return \GuzzleHttp\Client
      */
-	private function loadBaseClient(array $settings = [])
-	{
-		if ($this->baseClientAdapter)
-			$settings['adapter'] = $this->baseClientAdapter;
+    private function loadBaseClient(array $settings = [])
+    {
+        if ($this->baseClientAdapter)
+            $settings['adapter'] = $this->baseClientAdapter;
 
-		return $this->baseClient = new BaseClient($settings);
-	}
+        return $this->baseClient = new BaseClient($settings);
+    }
 
     /**
      * Load configuration file and parse resources.
@@ -181,22 +181,22 @@ class Client
      */
     private function loadConfig()
     {
-    	$description = $this->loadResource('service-config');
+        $description = $this->loadResource('service-config');
 
         // initial description building, use api info and build base url
         $description = $description + [
                 'baseUrl' => 'https://ws-'.$this->settings['data_center'].'.brightpearl.com',
-                'operations' => [], 
-                'models' => [] 
+                'operations' => [],
+                'models' => []
             ];
-		
-		// process each of the service description resources defined
+
+        // process each of the service description resources defined
         foreach ($description['services'] as $serviceName) {
 
             $service = $this->loadResource($serviceName);
 
-			$description = $this->loadServiceDescription($service, $description);
-			
+            $description = $this->loadServiceDescription($service, $description);
+
         }
 
         // dead weight now, clean it up
@@ -204,7 +204,7 @@ class Client
 
         return $description;
     }
-    
+
     /**
      * Load service description from resource, add global
      * parameters to operations. Operations and models
@@ -216,20 +216,20 @@ class Client
      */
     private function loadServiceDescription(array $service, array $description)
     {
-    	foreach ($service as $section => $set) {
-        	
-        	if ($section == 'operations') {
-        		
-        		// add global parameters to the operation parameters
-        		foreach ($set as &$op)
-            		$op['parameters'] = isset($op['parameters']) 
-            						? $op['parameters'] + $this->globalParams
-            						: $this->globalParams;
-        	}
-        
+        foreach ($service as $section => $set) {
+
+            if ($section == 'operations') {
+
+                // add global parameters to the operation parameters
+                foreach ($set as &$op)
+                    $op['parameters'] = isset($op['parameters'])
+                                    ? $op['parameters'] + $this->globalParams
+                                    : $this->globalParams;
+            }
+
             $description[$section] = $description[$section] + $set;
         }
-        
+
         return $description;
     }
 
@@ -252,67 +252,67 @@ class Client
      */
     private function setDataCenter($dataCenter)
     {
-    	if (static::$description) static::$description
-    		->setBaseUrl('https://ws-'.$dataCenter.'.brightpearl.com');
+        if (static::$description) static::$description
+            ->setBaseUrl('https://ws-'.$dataCenter.'.brightpearl.com');
     }
 
-	/**
+    /**
      * Public application install callback handler
      *
      * @param  array  $query
      * @param  string $signature
      * @return array
      */
-	public function installCallback(array $query, $signature = null)
-	{
-		extract($query);
-		
-		$this->validateRequest(compact('accountCode', 'timestamp', 'token'), $signature);
-		
-		$timestamp = $this->callbackDatetime($timestamp);
-		
-		return ['account_code' => $accountCode, 'account_token' => $token] + compact('timestamp');
-	}
+    public function installCallback(array $query, $signature = null)
+    {
+        extract($query);
 
-	/**
+        $this->validateRequest(compact('accountCode', 'timestamp', 'token'), $signature);
+
+        $timestamp = $this->callbackDatetime($timestamp);
+
+        return ['account_code' => $accountCode, 'account_token' => $token] + compact('timestamp');
+    }
+
+    /**
      * Public application regular callback handler
      *
      * @param  array  $query
      * @param  string $signature
      * @return array
      */
-	public function simpleCallback(array $query, $signature = null)
-	{
-		extract($query);
-		
-		$this->validateRequest(compact('accountCode', 'timestamp'), $signature);
-		
-		$timestamp = $this->callbackDatetime($timestamp);
-		
-		return ['account_code' => $accountCode, 'timestamp' => $timestamp];
-	}
+    public function simpleCallback(array $query, $signature = null)
+    {
+        extract($query);
 
-	/**
+        $this->validateRequest(compact('accountCode', 'timestamp'), $signature);
+
+        $timestamp = $this->callbackDatetime($timestamp);
+
+        return ['account_code' => $accountCode, 'timestamp' => $timestamp];
+    }
+
+    /**
      * Brightpearl signature validator
      *
      * @param  array  $query
      * @param  string $signature
      * @return void
      */
-	private function validateRequest(array $query, $signature)
-	{
-		$string = $this->settings['dev_secret'];
+    private function validateRequest(array $query, $signature)
+    {
+        $string = $this->settings['dev_secret'];
 
-		ksort($query);
+        ksort($query);
 
-		foreach ($query as $key => $val)
-			$string = $string.$key.'='.$val;
+        foreach ($query as $key => $val)
+            $string = $string.$key.'='.$val;
 
-		if ($signature !== hash('sha256', $string))
-			throw new Exception\UnauthorizedException('Error signature "'.$signature.'"does not match!');
-	}
+        if ($signature !== hash('sha256', $string))
+            throw new Exception\UnauthorizedException('Error signature "'.$signature.'"does not match!');
+    }
 
-	/**
+    /**
      * Process timestamps for callbacks, for some
      * reason they are returned in milliseconds so
      * we are reducing times to seconds first.
@@ -320,27 +320,27 @@ class Client
      * @param  string|int $timestamp
      * @return \DateTime
      */
-	private function callbackDatetime($timestamp)
-	{
-		$epoch = floor(((int)$timestamp)/1000);
+    private function callbackDatetime($timestamp)
+    {
+        $epoch = floor(((int)$timestamp)/1000);
 
-		return $this->getDatetimeTimestamp($epoch);
-	}
+        return $this->getDatetimeTimestamp($epoch);
+    }
 
-	/**
+    /**
      * Process timestamps to DateTime or Carbon if
      * available. (Carbon extends DateTime php class)
      *
      * @param  string|int $timestamp
      * @return \DateTime
      */
-	private function getDatetimeTimestamp($timestamp)
-	{
-		if (class_exists('Carbon\Carbon'))
-			return new \Carbon\Carbon("@$timestamp");
+    private function getDatetimeTimestamp($timestamp)
+    {
+        if (class_exists('Carbon\Carbon'))
+            return new \Carbon\Carbon("@$timestamp");
 
-		return new \DateTime("@$timestamp");
-	}
+        return new \DateTime("@$timestamp");
+    }
 
     /**
      * Set custom guzzle adapter (Mock and others)
@@ -370,7 +370,7 @@ class Client
         return $this;
     }
 
-	/**
+    /**
      * Sign account token with Developer Secret.
      * (Only used for public system applications,
      * ie Brightpearl app store apps.)
@@ -378,15 +378,15 @@ class Client
      * @param array
      * @return void
      */
-	private function signAccountToken(array &$settings)
-	{
-		$string = hash_hmac("sha256", $settings['account_token'], $settings['dev_secret'], TRUE);
-		
-		$settings['account_token'] = base64_encode($string);
-	}
+    private function signAccountToken(array &$settings)
+    {
+        $string = hash_hmac("sha256", $settings['account_token'], $settings['dev_secret'], TRUE);
+
+        $settings['account_token'] = base64_encode($string);
+    }
 
     /**
-     * Handle dynamic method calls into the method. 
+     * Handle dynamic method calls into the method.
      * Build client on first api call and compile
      * settings and parameters.
      *
@@ -396,27 +396,27 @@ class Client
      */
     public function __call($method, $parameters)
     {
-    	// In cases of Facade using Client->__call() make
-    	// sure methods are handled by Client if they exist
-    	if (method_exists($this, $method))
-    		call_user_func_array([$this, $method], $parameters);
-    
+        // In cases of Facade using Client->__call() make
+        // sure methods are handled by Client if they exist
+        if (method_exists($this, $method))
+            call_user_func_array([$this, $method], $parameters);
+
         // build the client on the first call
         if (!$this->serviceClient) $this->buildClient();
 
         // gather parameters to pass to service definitions
-        $settings = ['apiVersion' => self::API_VERSION] + 
-        			$this->settings;
-        
+        $settings = ['apiVersion' => self::API_VERSION] +
+                    $this->settings;
+
         // if developer secret is set then sign account token
         // with it (public system apps only)
         if (isset($settings['dev_secret']))
-        	$this->signAccountToken($settings);
+            $this->signAccountToken($settings);
 
         // merge client settings/parameters and method parameters
-        $parameters[0] = isset($parameters[0]) 
-                    		 ? $parameters[0] + $settings
-							 : $settings;
+        $parameters[0] = isset($parameters[0])
+                             ? $parameters[0] + $settings
+                             : $settings;
 
         // pass off to Guzzle-services client
         $response = call_user_func_array([$this->serviceClient, $method], $parameters);

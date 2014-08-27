@@ -13,7 +13,7 @@ return array(
     */
 
     "operations" => array(
-    
+
         "postAuth" => array(
             "httpMethod" => "POST",
             "uri" => "/{account_code}/authorise",
@@ -24,24 +24,24 @@ return array(
                 "apiAccountCredentials" => array(
                     "type" => "array",
                     "location" => "json",
-                    
+
                     "emailAddress" => array(
                         "type" => "string",
                         "location" => "json",
                         "description" => "Email for Auth",
                     ),
-                    
+
                     "password" => array(
                         "type" => "string",
                         "location" => "json",
                         "description" => "Email for Auth",
                     ),
-                    
+
                 ),
 
             ),
         ),
-        
+
     ),
 
     /*
@@ -55,6 +55,6 @@ return array(
     */
 
     "models" => array(
-        
+
     ),
 );

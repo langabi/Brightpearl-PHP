@@ -34,7 +34,7 @@ return array(
     */
 
     "services" => array(
-    	"accounting",
+        "accounting",
         "auth",
         "contact",
         "order",
@@ -53,14 +53,14 @@ return array(
     */
 
     "models" => array(
-    	
-    	"defaultJsonResponse" => array(
-    		"type" => "object",
+
+        "defaultJsonResponse" => array(
+            "type" => "object",
             "additionalProperties" => array(
                 "location" => "json",
             ),
-    	),
-    	
+        ),
+
     ),
 
 );

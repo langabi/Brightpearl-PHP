@@ -9,8 +9,8 @@ Installation
 
 ```json
     "require": {
-		"thegenielab/brightpearl": "*@dev"
-	}
+        "thegenielab/brightpearl": "*@dev"
+    }
 ```
 
 ### Laravel (optional)
@@ -22,7 +22,7 @@ Service Provider (config/app.php)
 
 Facade (config/app.php)
 ```php
-'Brightpearl'	  => 'Brightpearl\Laravel\Facade'
+'Brightpearl'     => 'Brightpearl\Laravel\Facade'
 ```
 
 Services (config/services.php) - global package settings (not required - can be overrided by you later, use this for defaults)
@@ -47,13 +47,13 @@ Usage
 use \Brightpearl\Client;
 
 $client = new Client([
-        		'dev_reference' => 'sahara',
-				'dev_secret'	=> 'fcVGPrRapgRyT83CJb9kg8wBpgIV7tdKikdKA/7SmvY=',
-				'app_reference' => 'parcelforce',
-        		'account_code'	=> 'topfurniture',
-				'account_token' => 'c72a9373-86f5-4138-a41f-c26cd9abfe4e',
-				'data_center'	=> 'eu1',
-        	]);
+                'dev_reference' => 'sahara',
+                'dev_secret'    => 'fcVGPrRapgRyT83CJb9kg8wBpgIV7tdKikdKA/7SmvY=',
+                'app_reference' => 'parcelforce',
+                'account_code'  => 'topfurniture',
+                'account_token' => 'c72a9373-86f5-4138-a41f-c26cd9abfe4e',
+                'data_center'   => 'eu1',
+            ]);
 
 $response = $client->getOrder(['id' => '1']);
 ```
@@ -62,11 +62,11 @@ $response = $client->getOrder(['id' => '1']);
 
 ```php
 $client = Brightpearl::settings([
-        		'account_code'	=> 'topfurniture',
-				'account_token' => 'c72a9373-86f5-4138-a41f-c26cd9abfe4e',
-				'data_center'	=> 'eu1',
-        	]);
-		
+                'account_code'  => 'topfurniture',
+                'account_token' => 'c72a9373-86f5-4138-a41f-c26cd9abfe4e',
+                'data_center'   => 'eu1',
+            ]);
+
 $response = $client->getOrder(['id' => '1']);
 ```
 
@@ -84,7 +84,7 @@ Create new contact (bare minimum, requires contact address)
 
 ```php
 $address = array(
-        "addressLine1" => "100 Something St",                                                  
+        "addressLine1" => "100 Something St",
         "postalCode" => "33000",
         "countryIsoCode" => "USA",
     );

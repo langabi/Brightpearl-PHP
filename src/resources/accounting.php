@@ -13,8 +13,8 @@ return array(
     */
 
     "operations" => array(
-    	
-    	/**
+
+        /**
          *    getAccountingTaxCode() method
          *
          *    reference: https://www.brightpearl.com/developer/latest/accounting/tax-code/get.html
@@ -25,7 +25,7 @@ return array(
             "summary" => "Get tax code(s)",
             "responseModel" => "defaultJsonResponse",
             "parameters" => array(
- 
+
                 "id" => array(
                     "type" => "string",
                     "location" => "uri",
@@ -35,7 +35,7 @@ return array(
 
             ),
         ),
-        
+
     ),
 
     /*

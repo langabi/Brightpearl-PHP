@@ -25,7 +25,7 @@ return array(
             "summary" => "Retrieve Contact",
             "responseModel" => "defaultJsonResponse",
             "parameters" => array(
-                
+
                 "id" => array(
                     "type" => "string",
                     "location" => "uri",
@@ -187,7 +187,7 @@ return array(
                         "location" => "json",
                     ),
                 ),
-                
+
                 "organisation" => array(
                     "type" => "array",
                     "location" => "json",
@@ -364,5 +364,5 @@ return array(
 
     "models" => array(
 
-	),
+    ),
 );

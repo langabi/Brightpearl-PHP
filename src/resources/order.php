@@ -2,7 +2,7 @@
 
 return array(
 
-	/*
+    /*
     |--------------------------------------------------------------------------
     | Operations
     |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ return array(
                     "description" => "Order id",
                     "required" => true,
                 ),
-                
+
             ),
         ),
 
@@ -68,7 +68,7 @@ return array(
                 "priceListId" => array(
                     "type" => "integer",
                     "location" => "json",
-                    "description" => "The Id of the Price List you wish to use for this Order. 
+                    "description" => "The Id of the Price List you wish to use for this Order.
                                       If no Price List Id is sent in the Customer/Supplier's assigned Price List is used.",
                     "required" => false,
                 ),
@@ -243,7 +243,7 @@ return array(
 
             ),
         ),
-        
+
     ),
 
     /*
@@ -257,6 +257,6 @@ return array(
     */
 
     "models" => array(
-        
+
     ),
 );

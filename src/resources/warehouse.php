@@ -14,7 +14,7 @@ return array(
 
     "operations" => array(
 
-    	/**
+        /**
          *    getWarehouse() method
          *
          *    reference: https://www.brightpearl.com/developer/latest/warehouse/warehouse/get.html
@@ -25,7 +25,7 @@ return array(
             "summary" => "Get warehouse(s)",
             "responseModel" => "defaultJsonResponse",
             "parameters" => array(
- 
+
                 "id" => array(
                     "type" => "string",
                     "location" => "uri",
@@ -47,7 +47,7 @@ return array(
             "summary" => "Get warehouse(s)",
             "responseModel" => "defaultJsonResponse",
             "parameters" => array(
- 
+
                 "id" => array(
                     "type" => "string",
                     "location" => "uri",
