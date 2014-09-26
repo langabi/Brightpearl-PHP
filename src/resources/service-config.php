@@ -37,6 +37,7 @@ return array(
         "accounting",
         "auth",
         "contact",
+        "developer-tools",
         "order",
         "product",
         "integration",
