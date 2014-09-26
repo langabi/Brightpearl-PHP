@@ -389,9 +389,7 @@ class Client
     }
 
     /**
-     * Sign account token with Developer Secret.
-     * (Only used for public system applications,
-     * ie Brightpearl app store apps.)
+     * Sign developer token with Developer Secret.
      *
      * @param  array $settings
      * @return void
@@ -400,7 +398,7 @@ class Client
     {
         if (isset($settings['dev_secret']) && isset($settings['dev_token']))
 
-        $settings['account_token'] = $this->signToken($settings['dev_token'], $settings['dev_secret']);
+        $settings['dev_token'] = $this->signToken($settings['dev_token'], $settings['dev_secret']);
     }
 
     /**
