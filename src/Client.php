@@ -18,7 +18,7 @@ class Client
     /**
      * Guzzle service description
      *
-     * @var array
+     * @var \Brightpearl\Description
      */
     private static $description;
 
@@ -27,51 +27,51 @@ class Client
      *
      * @var \GuzzleHttp\Client
      */
-    protected $baseClient;
+    private $baseClient;
 
     /**
      * Adapter for Guzzle base client
      *
      * @var \GuzzleHttp\Adapter\AdapterInterface
      */
-    protected $baseClientAdapter;
+    private $baseClientAdapter;
 
     /**
      * Api client services
      *
      * @var \GuzzleHttp\Command\Guzzle\GuzzleClient
      */
-    protected $serviceClient;
+    private $serviceClient;
 
     /**
      * Staff auth credentials to acquire staff token (user email and password)
      *
      * @var array
      */
-    protected $installCredentials;
+    private $installCredentials;
 
     /**
      * Brightpearl client config settings
      *
      * @var array
      */
-    protected $settings;
+    private $settings;
 
     /**
      * Request header items
      *
      * @var array
      */
-    protected $globalParams = [
+    private $globalParams = [
             "apiVersion" => [
                 "type" => "string",
                 "location" => "uri",
-                "required" => false,
+                "required" => true,
             ],
             "account_code" => [
                 "type" => "string",
                 "location" => "uri",
-                "required" => false,
+                "required" => true,
             ],
             "dev_reference" => [
                 "type" => "string",
@@ -136,16 +136,17 @@ class Client
     {
         $client = $this->getBaseClient();
 
-        // default to master datacenter, used primarily
-        // for "developer-tools" api requests.
-        if (!isset($this->settings['data_center']))
-            $this->settings['data_center'] = 'eu1';
+        // If no api domain is set use master datacenter
+        if (!isset($this->settings['api_domain'])) {
+            $this->settings['api_domain'] = 'ws-eu1.brightpearl.com';
+        }
 
-        if (!static::$description)
-            static::$description = new Description($this->loadConfig());
+        if (!static::$description) {
+            $this->reloadDescription();
+        }
 
         // sync data center code across client and description
-        else $this->setDataCenter($this->settings['data_center']);
+        else $this->setApiDomain($this->settings['api_domain']);
 
         $this->serviceClient = new GuzzleClient(
                 $client,
@@ -178,6 +179,17 @@ class Client
     }
 
     /**
+     * Description works tricky as a static
+     * property, reload as a needed.
+     *
+     * @return void
+     */
+    private function reloadDescription()
+    {
+        static::$description = new Description($this->loadConfig());
+    }
+
+    /**
      * Load configuration file and parse resources.
      *
      * @return array
@@ -188,7 +200,7 @@ class Client
 
         // initial description building, use api info and build base url
         $description = $description + [
-                'baseUrl' => 'https://ws-'.$this->settings['data_center'].'.brightpearl.com',
+                'baseUrl' => 'https://'.$this->settings['api_domain'],
                 'operations' => [],
                 'models' => []
             ];
@@ -248,15 +260,16 @@ class Client
     }
 
     /**
-     * Set data center.
+     * Set api domain.
      *
-     * @param  string $dataCenter
+     * @param  string $apiDomain
      * @return void
      */
-    private function setDataCenter($dataCenter)
+    public function setApiDomain($apiDomain)
     {
-        if (static::$description) static::$description
-            ->setBaseUrl('https://ws-'.$dataCenter.'.brightpearl.com');
+        $this->settings['api_domain'] = $apiDomain;
+
+        if (static::$description) $this->reloadDescription();
     }
 
     /**
@@ -378,41 +391,14 @@ class Client
      * (Only used for public system applications,
      * ie Brightpearl app store apps.)
      *
-     * @param  array $settings
+     * @param array
      * @return void
      */
     private function signAccountToken(array &$settings)
     {
-        if (isset($settings['dev_secret']) && isset($settings['account_token']))
+        $string = hash_hmac("sha256", $settings['account_token'], $settings['dev_secret'], TRUE);
 
-        $settings['account_token'] = $this->signToken($settings['account_token'], $settings['dev_secret']);
-    }
-
-    /**
-     * Sign developer token with Developer Secret.
-     *
-     * @param  array $settings
-     * @return void
-     */
-    private function signDevToken(array &$settings)
-    {
-        if (isset($settings['dev_secret']) && isset($settings['dev_token']))
-
-        $settings['dev_token'] = $this->signToken($settings['dev_token'], $settings['dev_secret']);
-    }
-
-    /**
-     * Sign a token with Developer Secret.
-     *
-     * @param  string $token
-     * @param  string $secret
-     * @return string
-     */
-    private function signToken($token, $secret)
-    {
-        $string = hash_hmac("sha256", $token, $secret, TRUE);
-
-        return base64_encode($string);
+        $settings['account_token'] = base64_encode($string);
     }
 
     /**
@@ -438,11 +424,10 @@ class Client
         $settings = ['apiVersion' => self::API_VERSION] +
                     $this->settings;
 
-        // Sign tokens if they are signable
-        // Signed account tokens used for public system Apps
-        // Signed dev tokens used for developer-tools api
-        $this->signAccountToken($settings);
-        $this->signDevToken($settings);
+        // if developer secret is set then sign account token
+        // with it (public system apps only)
+        if (isset($settings['dev_secret']))
+            $this->signAccountToken($settings);
 
         // merge client settings/parameters and method parameters
         $parameters[0] = isset($parameters[0])
