@@ -18,7 +18,7 @@ class Client
     /**
      * Guzzle service description
      *
-     * @var array
+     * @var \Brightpearl\Description
      */
     private static $description;
 
@@ -27,42 +27,42 @@ class Client
      *
      * @var \GuzzleHttp\Client
      */
-    protected $baseClient;
+    private $baseClient;
 
     /**
      * Adapter for Guzzle base client
      *
      * @var \GuzzleHttp\Adapter\AdapterInterface
      */
-    protected $baseClientAdapter;
+    private $baseClientAdapter;
 
     /**
      * Api client services
      *
      * @var \GuzzleHttp\Command\Guzzle\GuzzleClient
      */
-    protected $serviceClient;
+    private $serviceClient;
 
     /**
      * Staff auth credentials to acquire staff token (user email and password)
      *
      * @var array
      */
-    protected $installCredentials;
+    private $installCredentials;
 
     /**
      * Brightpearl client config settings
      *
      * @var array
      */
-    protected $settings;
+    private $settings;
 
     /**
      * Request header items
      *
      * @var array
      */
-    protected $globalParams = [
+    private $globalParams = [
             "apiVersion" => [
                 "type" => "string",
                 "location" => "uri",
@@ -136,13 +136,17 @@ class Client
     {
         $client = $this->getBaseClient();
 
-        if (!isset($this->settings['data_center'])) return;
+        // If no api domain is set use master datacenter
+        if (!isset($this->settings['api_domain'])) {
+            $this->settings['api_domain'] = 'ws-eu1.brightpearl.com';
+        }
 
-        if (!static::$description)
-            static::$description = new Description($this->loadConfig());
+        if (!static::$description) {
+            $this->reloadDescription();
+        }
 
         // sync data center code across client and description
-        else $this->setDataCenter($this->settings['data_center']);
+        else $this->setApiDomain($this->settings['api_domain']);
 
         $this->serviceClient = new GuzzleClient(
                 $client,
@@ -175,6 +179,17 @@ class Client
     }
 
     /**
+     * Description works tricky as a static
+     * property, reload as a needed.
+     *
+     * @return void
+     */
+    private function reloadDescription()
+    {
+        static::$description = new Description($this->loadConfig());
+    }
+
+    /**
      * Load configuration file and parse resources.
      *
      * @return array
@@ -185,7 +200,7 @@ class Client
 
         // initial description building, use api info and build base url
         $description = $description + [
-                'baseUrl' => 'https://ws-'.$this->settings['data_center'].'.brightpearl.com',
+                'baseUrl' => 'https://'.$this->settings['api_domain'],
                 'operations' => [],
                 'models' => []
             ];
@@ -245,15 +260,16 @@ class Client
     }
 
     /**
-     * Set data center.
+     * Set api domain.
      *
-     * @param  string $dataCenter
+     * @param  string $apiDomain
      * @return void
      */
-    private function setDataCenter($dataCenter)
+    public function setApiDomain($apiDomain)
     {
-        if (static::$description) static::$description
-            ->setBaseUrl('https://ws-'.$dataCenter.'.brightpearl.com');
+        $this->settings['api_domain'] = $apiDomain;
+
+        if (static::$description) $this->reloadDescription();
     }
 
     /**

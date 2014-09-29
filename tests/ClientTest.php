@@ -1,6 +1,4 @@
-<?php
-
-namespace GuzzleHttp\Tests;
+<?php namespace Brightpearl\Tests;
 
 use GuzzleHttp\Adapter\MockAdapter;
 use GuzzleHttp\Adapter\TransactionInterface;
@@ -12,29 +10,92 @@ use Brightpearl\Client;
 /**
  * @covers Brightpearl\Client
  */
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
-    public function testPostRequest()
+    /**
+     * Create Client and use in reflection
+     */
+    public function setUp()
     {
-        $client = new Client([
+        $this->testClass = new Client([
                 'dev_reference' => 'sahara',
                 'dev_secret'    => 'fcVGPrRapgRyT83CJb9kg8wBpgIV7tdKikdKA/7SmvY=',
                 'app_reference' => 'parcelforce',
-                'account_code'  => 'topfurniture',
-                'account_token' => 'c72a9373-86f5-4138-a41f-c26cd9abfe4e',
-                'data_center'   => 'eu1',
             ]);
-        $req = null;
-        $json = '{"response": 123}';
 
-        $mockAdapter = new MockAdapter(function (TransactionInterface $trans) use (&$req, $json) {
-            // You have access to the request
-            $req = $trans->getRequest();
-               // Return a response
-            return new Response(200, [], Stream::factory($json));
+        parent::setup();
+    }
+
+    /**
+     * Configure a mock response on the client
+     *
+     * @param  string  $response default is empty JSON
+     * @param  integer $code     default is 200 (OK)
+     * @param  [type]  $request  use to access request
+     * @return void
+     */
+    public function mockResponse($response = '{}', $code = 200, &$request = null)
+    {
+        $mockAdapter = new MockAdapter(function (TransactionInterface $trans) use ($response, $code, &$request) {
+            // Access to the request
+            $request = $trans->getRequest();
+            // Return a response
+            return new Response($code, [], Stream::factory($response));
         });
 
-        $client->setClientAdapter($mockAdapter);
+        // Place new adapter on client class
+        $this->testClass->setClientAdapter($mockAdapter);
+    }
+
+    public function testApiDomain()
+    {
+        // generate basic mock response
+        $this->mockResponse();
+
+        // client needs these additional settings to do a basic call
+        $this->testClass->settings([
+                'account_code'  => 'topfurniture',
+                'account_token' => 'c72a9373-86f5-4138-a41f-c26cd9abfe4e',
+            ]);
+
+        // assert that we are missing api domain
+        $this->assertFalse(isset($this->getProperty("settings")['api_domain']));
+
+        // force a call without api domain to test defaulting to master datacenter
+        $this->testClass->getWebhook();
+
+        // assert we are pointing to master datacenter api domain within client and description
+        $this->assertClassHasStaticAttribute('description', 'Brightpearl\Client');
+        $this->assertInstanceOf('Brightpearl\Description', $this->getProperty("description"));
+        $this->assertEquals('ws-eu1.brightpearl.com', $this->getProperty("settings")['api_domain']);
+        $this->assertEquals('ws-eu1.brightpearl.com', $this->getProperty("description")->getBaseUrl()->getHost());
+
+        // change api domain via settings method
+        $this->testClass->settings([ 'api_domain' => 'ws-usw.brightpearl.com',]);
+
+        // assert change successful
+        $this->assertEquals('ws-usw.brightpearl.com', $this->getProperty("settings")['api_domain']);
+        $this->assertEquals('ws-usw.brightpearl.com', $this->getProperty("description")->getBaseUrl()->getHost());
+
+        // change api domain via setApiDomain method
+        $this->testClass->setApiDomain('ws-eu2.brightpearl.com');
+
+        // assert change successful
+        $this->assertEquals('ws-eu2.brightpearl.com', $this->getProperty("settings")['api_domain']);
+        $this->assertEquals('ws-eu2.brightpearl.com', $this->getProperty("description")->getBaseUrl()->getHost());
+    }
+
+    public function testPostRequest()
+    {
+        $req = null;
+
+        $this->testClass->settings([
+                'account_code'  => 'topfurniture',
+                'account_token' => 'c72a9373-86f5-4138-a41f-c26cd9abfe4e',
+                'api_domain'    => 'ws-use.brightpearl.com',
+            ]);
+
+        $this->mockResponse('{"response": 123}', 200, $req);
 
         $payload = array(
                 "addressLine1" => "100 Something St",
@@ -48,7 +109,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 'fcVGPrRapgRyT83CJb9kg8wBpgIV7tdKikdKA/7SmvY=',
                 TRUE));
 
-        $response = $client->postContactAddress($payload);
+        $response = $this->testClass->postContactAddress($payload);
 
         $this->assertInternalType('int', $response);
         $this->assertEquals(123, $response);
@@ -60,7 +121,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testInstallCallback()
     {
-        $client = new Client([
+        $client = $this->testClass->settings([
                 'dev_secret'    => 'fcVGPrRapgRyT83CJb9kg8wBpgIV7tdKikdKA/7SmvY=',
             ]);
 

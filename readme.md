@@ -37,7 +37,7 @@ Services (config/services.php) - global package settings (not required - can be 
         'app_reference' => 'parcelforce',
         'account_code'  => '',
         'account_token' => '',
-        'data_center'   => '',
+        'api_domain'    => '',
         'staff_token'   => '',
     ),
 ```
@@ -56,7 +56,7 @@ $client = new Client([
                 'app_reference' => 'parcelforce',
                 'account_code'  => 'topfurniture',
                 'account_token' => 'c72a9373-86f5-4138-a41f-c26cd9abfe4e',
-                'data_center'   => 'eu1',
+                'api_domain'    => 'eu1',
             ]);
 // example call
 $response = $client->getOrder(['id' => '1']);
@@ -68,7 +68,7 @@ $response = $client->getOrder(['id' => '1']);
 $client = Brightpearl::settings([
                 'account_code'  => 'topfurniture',
                 'account_token' => 'c72a9373-86f5-4138-a41f-c26cd9abfe4e',
-                'data_center'   => 'eu1',
+                'api_domain'    => 'eu1',
             ]);
 // example call
 $response = $client->getOrder(['id' => '1']);
