@@ -15,11 +15,11 @@ return array(
     "operations" => array(
 
         /**
-         *    getDevToolsDatacenter() method
+         *    getAccountLocation() method
          *
          *    reference: TBA
          */
-        "getDevToolsDatacenter" => array(
+        "getAccountLocation" => array(
             "httpMethod" => "GET",
             "uri" => "/developer-tools/{dev_reference}/account-location/{account_code}",
             "summary" => "Get account datacenter",
@@ -29,8 +29,14 @@ return array(
                 "dev_token" => [
                     "type" => "string",
                     "location" => "header",
-                    "required" => false,
+                    "required" => true,
                     "sentAs" => "brightpearl-dev-token",
+                ],
+
+                "dev_reference" => [
+                    "type" => "string",
+                    "location" => "uri",
+                    "required" => true,
                 ],
 
             ),
