@@ -391,14 +391,41 @@ class Client
      * (Only used for public system applications,
      * ie Brightpearl app store apps.)
      *
-     * @param array
+     * @param  array $settings
      * @return void
      */
     private function signAccountToken(array &$settings)
     {
-        $string = hash_hmac("sha256", $settings['account_token'], $settings['dev_secret'], TRUE);
+        if (isset($settings['dev_secret']) && isset($settings['account_token']))
 
-        $settings['account_token'] = base64_encode($string);
+        $settings['account_token'] = $this->signToken($settings['account_token'], $settings['dev_secret']);
+    }
+
+    /**
+     * Sign developer token with Developer Secret.
+     *
+     * @param  array $settings
+     * @return void
+     */
+    private function signDevToken(array &$settings)
+    {
+        if (isset($settings['dev_secret']) && isset($settings['dev_token']))
+
+        $settings['dev_token'] = $this->signToken($settings['dev_token'], $settings['dev_secret']);
+    }
+
+    /**
+     * Sign a token with Developer Secret.
+     *
+     * @param  string $token
+     * @param  string $secret
+     * @return string
+     */
+    private function signToken($token, $secret)
+    {
+        $string = hash_hmac("sha256", $token, $secret, TRUE);
+
+        return base64_encode($string);
     }
 
     /**
@@ -424,10 +451,9 @@ class Client
         $settings = ['apiVersion' => self::API_VERSION] +
                     $this->settings;
 
-        // if developer secret is set then sign account token
-        // with it (public system apps only)
-        if (isset($settings['dev_secret']))
-            $this->signAccountToken($settings);
+        // Sign tokens if they are signable
+        $this->signAccountToken($settings);
+        $this->signDevToken($settings);
 
         // merge client settings/parameters and method parameters
         $parameters[0] = isset($parameters[0])
