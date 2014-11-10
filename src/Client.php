@@ -463,6 +463,6 @@ class Client
         // pass off to Guzzle-services client
         $response = call_user_func_array([$this->serviceClient, $method], $parameters);
 
-        return isset($response['response']) ? $response['response'] : $response;
+        return isset($response['response']) && !isset($response['reference']) ? $response['response'] : $response;
     }
 }
