@@ -243,6 +243,103 @@ return array(
 
             ),
         ),
+        
+        /**
+         *    postOrderRow() method
+         * 
+         *    reference: https://www.brightpearl.com/developer/latest/order/order-row/post.html
+         */
+        "postOrderRow" => array(
+            "httpMethod" => "POST",
+            "uri" => "/{apiVersion}/{account_code}/order-service/order/{order-id}/row",
+            "summary" => "Create order row",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+                
+                "order-id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "Order id",
+                    "required" => true,
+                ),
+                
+                "productId" => array(
+                    "type" => "integer",
+                    "location" => "json",
+                    "description" => "The Id of the Product you wish to add an Order Row of.",
+                    "required" => false,                
+                ),
+                
+                "productName" => array(
+                    "type" => "string",
+                    "location" => "json",
+                    "description" => "The name of the Product you wish to add an Order Row of.",
+                    "required" => false,                
+                ),
+                
+                "quantity" => array(
+                    "type" => "array",
+                    "location" => "json",
+                    "description" => "Order Row Quantity",
+                    "required" => true,
+                    "magnitude" => array(
+                        "type" => "string",
+                        "location" => "json",
+                        "description" => "The quantity of items in this row. For stock tracked Products this number has to be an integer, for non stock tracked Products this number can be a decimal with 2 decimal places.",
+                        "required" => true,                
+                    ),
+                ),
+                
+                "rowValue" => array(
+                    "type" => "array",
+                    "location" => "json",
+                    "description" => "Order Row Value",
+                    "required" => true,
+                    "taxCode" => array(
+                        "type" => "string",
+                        "location" => "json",
+                        "description" => "The Tax Code for this row.",
+                        "required" => true,                
+                    ),
+                    "rowNet" => array(
+                        "type" => "array",
+                        "location" => "json",
+                        "description" => "The NET value of this row in the same currency as the order specified in two decimal places.",
+                        "required" => true,
+                        "value" => array(
+                            "type" => "string",
+                            "location" => "json",
+                            "description" => "order row net value",
+                            "required" => true,
+                        ),                
+                    ),
+                    "rowTax" => array(
+                        "type" => "array",
+                        "location" => "json",
+                        "description" => "The NET tax value of this row in the same currency as the order specified in two decimal places.",
+                        "required" => true,
+                        "value" => array(
+                            "type" => "string",
+                            "location" => "json",
+                            "description" => "order row tax value",
+                            "required" => true,
+                        ),                
+                    ),
+                ),
+                
+                "nominalCode" => array(
+                    "type" => "",
+                    "location" => "json",
+                    "description" => "The nominal code for this row. 
+                If you do not provide a nominal code, then the following rules will be used to decipher which nominal code will be applied to the row
+                - The nominal code associated to the contact will be used
+                - If the contact does not have a nominal code, the nominal code associated with the product will be used
+                - If the product does not have a nominal code or it is not a Brightpearl product the default sales/purchases nominal code is used",
+                    "required" => false,                
+                ),
+                
+            ),
+        ),
 
     ),
 
