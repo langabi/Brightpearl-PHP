@@ -2,12 +2,16 @@
     "name": "thegenielab/brightpearl",
     "type": "library",
     "license": "MIT",
-    "description": "Brightpearl API Guzzle Wrapper",
-    "homepage": "http://github.com/TheGenieLab/Brightpearl-PHP",
+    "description": "Brightpearl API PHP Guzzle Wrapper",
+    "homepage": "http://www.thegenielab.com",
     "authors": [
         {
             "name": "Chase Vecchio",
             "email": "chase@thegenielab.com"
+        },
+        {
+            "name": "James Pudney",
+            "email": "james@thegenielab.com"
         }
     ],
     "require-dev": {

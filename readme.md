@@ -224,15 +224,50 @@ $orders = $client->getOrder(['id' => '1-3,4,5']);
  * currency, assignment, warehouseId
  */
 $order = [
-        "orderTypeCode": "SO",
-        "parties": [
-            "customer": [
-                "contactId": 204
+        "orderTypeCode" => "SO",
+        "parties" => [
+            "customer" => [
+                "contactId" => 204
             ]
         ]
     ];
 
 $orderId = $client->postOrder($order);
+```
+
+`postOrderRow()` - Create new order row
+
+```php
+/**
+ * Required fields:
+ * orderId, magnitude, taxCode,
+ * rowNet, rowTax
+ *
+ * Required option field:
+ * productId or productName
+ *
+ * Optional fields:
+ * nominalCode
+ */
+
+$row = [
+        "orderId" => 45,
+        "productId" => 123, // or productName for free text row
+        "quantity" => [
+            "magnitude" => 3
+        ],
+        "rowValue" => [
+            "taxCode" => "T20",
+            "rowNet" => [
+                "value" => 12.21
+            ],
+            "rowTax" => [
+                "value" => 2.44
+            ]
+        ]
+    ];
+
+$rowId = $this->brightpearl()->postOrderRow($row);
 ```
 Resources
 ---------
