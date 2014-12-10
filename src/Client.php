@@ -363,6 +363,7 @@ class Client
      *
      * @param AdapterInterface $adapter
      * @return static
+     * @deprecated since Guzzle 5, use handlers and subscribers
      */
     public function setClientAdapter(\GuzzleHttp\Adapter\AdapterInterface $adapter)
     {
@@ -379,7 +380,7 @@ class Client
      */
     public function setClientSubscriber(\GuzzleHttp\Event\SubscriberInterface $subscriber)
     {
-        if (!$this->serviceClient) $this->baseClient->getEmitter()->attach($subscriber);
+        if ( ! $this->serviceClient) $this->getBaseClient()->getEmitter()->attach($subscriber);
 
         else $this->serviceClient->getEmitter()->attach($subscriber);
 

@@ -1,7 +1,7 @@
 <?php namespace Brightpearl\Tests;
 
-use GuzzleHttp\Adapter\MockAdapter;
-use GuzzleHttp\Adapter\TransactionInterface;
+use GuzzleHttp\Subscriber\Mock;
+use GuzzleHttp\Subscriber\History;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Stream\Stream;
 
@@ -31,20 +31,29 @@ class ClientTest extends TestCase
      *
      * @param  string  $response default is empty JSON
      * @param  integer $code     default is 200 (OK)
-     * @param  [type]  $request  use to access request
      * @return void
      */
-    public function mockResponse($response = '{}', $code = 200, &$request = null)
+    public function mockResponse($response = '{}', $code = 200)
     {
-        $mockAdapter = new MockAdapter(function (TransactionInterface $trans) use ($response, $code, &$request) {
-            // Access to the request
-            $request = $trans->getRequest();
-            // Return a response
-            return new Response($code, [], Stream::factory($response));
-        });
+        $mockAdapter = new Mock([ new Response($code, [], Stream::factory($response)) ]);
+
+        // Place new subscriber on client class
+        $this->testClass->setClientSubscriber($mockAdapter);
+    }
+
+    /**
+     * Attach a history subscriber
+     *
+     * @return \GuzzleHttp\Subscriber\History
+     */
+    public function historySubscriber()
+    {
+        $history = new History();
 
         // Place new adapter on client class
-        $this->testClass->setClientAdapter($mockAdapter);
+        $this->testClass->setClientSubscriber($history);
+
+        return $history;
     }
 
     public function testApiDomain()
@@ -87,15 +96,15 @@ class ClientTest extends TestCase
 
     public function testPostRequest()
     {
-        $req = null;
-
         $this->testClass->settings([
                 'account_code'  => 'topfurniture',
                 'account_token' => 'c72a9373-86f5-4138-a41f-c26cd9abfe4e',
                 'api_domain'    => 'ws-use.brightpearl.com',
             ]);
 
-        $this->mockResponse('{"response": 123}', 200, $req);
+        $this->mockResponse('{"response": 123}', 200);
+
+        $history = $this->historySubscriber();
 
         $payload = array(
                 "addressLine1" => "100 Something St",
@@ -110,6 +119,8 @@ class ClientTest extends TestCase
                 TRUE));
 
         $response = $this->testClass->postContactAddress($payload);
+
+        $req = $history->getLastRequest();
 
         $this->assertInternalType('int', $response);
         $this->assertEquals(123, $response);
