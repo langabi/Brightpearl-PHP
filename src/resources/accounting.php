@@ -35,10 +35,10 @@ return array(
 
             ),
         ),
-        
+
         /**
          *    postSalesReceipt() method
-         * 
+         *
          *    reference: https://www.brightpearl.com/developer/latest/accounting/sales-receipt/post.html
          */
         "postSalesReceipt" => array(
@@ -57,78 +57,78 @@ The bankAccountNominalCode must be a valid nominal code
 channelId is optional.",
             "responseModel" => "defaultJsonResponse",
             "parameters" => array(
-                
+
                 "orderId" => array(
                     "type" => "string",
                     "location" => "json",
                     "description" => "",
                     "required" => false,
                 ),
-                
+
                 "customerId" => array(
                     "type" => "string",
                     "location" => "json",
                     "description" => "",
                     "required" => false,
                 ),
-                
+
                 "received" => array(
-                    
+
                     "type" => "array",
                     "location" => "json",
                     "description" => "",
                     "required" => true,
-                    
+
                     "currency" => array(
                         "type" => "string",
                         "location" => "json",
                         "description" => "",
                         "required" => true,
                     ),
-                    
+
                     "value" => array(
                         "type" => "string",
                         "location" => "json",
                         "required" => true,
                     ),
                 ),
-                
+
                 "invoiceReference" => array(
                     "type" => "string",
                     "location" => "json",
-                    "required" => true,
+                    "required" => false,
                 ),
-                
+
                 "bankAccountNominalCode" => array(
                     "type" => "string",
                     "location" => "json",
                     "required" => true,
                 ),
-                
+
                 "description" => array(
                     "type" => "string",
                     "location" => "json",
                     "description" => "Description",
                     "required" => false,
                 ),
-                
+
                 "taxDate" => array(
                     "type" => "string",
                     "location" => "json",
                     "description" => "Tax Date",
                     "required" => true,
                 ),
-                
+
                 "channelId" => array(
                     "type" => "integer",
                     "location" => "json",
                     "description" => "The channel to associate the sales receipt with.",
                     "required" => false,
                 ),
-                
+
             ),
         ),
-        
+
     ),
 
     /*

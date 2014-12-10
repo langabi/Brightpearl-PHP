@@ -243,40 +243,40 @@ return array(
 
             ),
         ),
-        
+
         /**
          *    postOrderRow() method
-         * 
+         *
          *    reference: https://www.brightpearl.com/developer/latest/order/order-row/post.html
          */
         "postOrderRow" => array(
             "httpMethod" => "POST",
-            "uri" => "/{apiVersion}/{account_code}/order-service/order/{order-id}/row",
+            "uri" => "/{apiVersion}/{account_code}/order-service/order/{orderId}/row",
             "summary" => "Create order row",
             "responseModel" => "defaultJsonResponse",
             "parameters" => array(
-                
-                "order-id" => array(
+
+                "orderId" => array(
                     "type" => "string",
                     "location" => "uri",
                     "description" => "Order id",
                     "required" => true,
                 ),
-                
+
                 "productId" => array(
                     "type" => "integer",
                     "location" => "json",
                     "description" => "The Id of the Product you wish to add an Order Row of.",
-                    "required" => false,                
+                    "required" => false,
                 ),
-                
+
                 "productName" => array(
                     "type" => "string",
                     "location" => "json",
                     "description" => "The name of the Product you wish to add an Order Row of.",
-                    "required" => false,                
+                    "required" => false,
                 ),
-                
+
                 "quantity" => array(
                     "type" => "array",
                     "location" => "json",
@@ -286,10 +286,10 @@ return array(
                         "type" => "string",
                         "location" => "json",
                         "description" => "The quantity of items in this row. For stock tracked Products this number has to be an integer, for non stock tracked Products this number can be a decimal with 2 decimal places.",
-                        "required" => true,                
+                        "required" => true,
                     ),
                 ),
-                
+
                 "rowValue" => array(
                     "type" => "array",
                     "location" => "json",
@@ -299,7 +299,7 @@ return array(
                         "type" => "string",
                         "location" => "json",
                         "description" => "The Tax Code for this row.",
-                        "required" => true,                
+                        "required" => true,
                     ),
                     "rowNet" => array(
                         "type" => "array",
@@ -311,7 +311,7 @@ return array(
                             "location" => "json",
                             "description" => "order row net value",
                             "required" => true,
-                        ),                
+                        ),
                     ),
                     "rowTax" => array(
                         "type" => "array",
@@ -323,116 +323,116 @@ return array(
                             "location" => "json",
                             "description" => "order row tax value",
                             "required" => true,
-                        ),                
+                        ),
                     ),
                 ),
-                
+
                 "nominalCode" => array(
                     "type" => "",
                     "location" => "json",
-                    "description" => "The nominal code for this row. 
+                    "description" => "The nominal code for this row.
                 If you do not provide a nominal code, then the following rules will be used to decipher which nominal code will be applied to the row
                 - The nominal code associated to the contact will be used
                 - If the contact does not have a nominal code, the nominal code associated with the product will be used
                 - If the product does not have a nominal code or it is not a Brightpearl product the default sales/purchases nominal code is used",
-                    "required" => false,                
+                    "required" => false,
                 ),
-                
+
             ),
         ),
-        
+
         /**
          *    searchOrder() method
-         * 
+         *
          *    reference: https://www.brightpearl.com/developer/latest/order/order/search.html
          */
         "searchOrder" => array(
-            
+
             "columns" => array(
                 "type" => "array",
                 "location" => "uri",
                 "description" => "You may control the set of columns that are included in the results and the order in which they are presented. You may use the columns parameters and provide a comma separated list of column names. e.g. /contact-search?columns=contactId,firstName",
                 "required" => false,
             ),
-            
+
             "sort" => array(
                 "type" => "string",
                 "location" => "uri",
                 "description" => "When you execute a resource, you may change the default sort order by setting a query parameter sort. The value of this parameter is a comma delimited list of 1-n column names with an optional sort direction separated by a pipe. e.g. /goods-out-note-search?sort=warehouseId,price|DESC",
                 "required" => false,
             ),
-            
+
             "pageSize" => array(
                 "type" => "integer",
                 "location" => "uri",
                 "description" => "",
-                "required" => false,            
+                "required" => false,
             ),
-            
+
             "firstResult" => array(
                 "type" => "integer",
                 "location" => "uri",
                 "description" => "",
-                "required" => false,            
+                "required" => false,
             ),
-            
+
             // filters
             "placedOn" => array(
                 "type" => "string",
                 "location" => "uri",
                 "description" => "The date the order was placed.",
-                "required" => false,            
+                "required" => false,
             ),
-            
+
             "deliveryDate" => array(
                 "type" => "string",
                 "location" => "uri",
                 "description" => "The date the delivery is set for.",
-                "required" => false,            
+                "required" => false,
             ),
-            
+
             "shippingMethodId" => array(
                 "type" => "integer",
                 "location" => "uri",
                 "description" => "The ID of the Shipping Method.",
-                "required" => false,            
+                "required" => false,
             ),
-            
+
             "staffOwnerContactId" => array(
                 "type" => "integer",
                 "location" => "uri",
                 "description" => "The ID of the Staff member who owns the Order.",
-                "required" => false,            
+                "required" => false,
             ),
-            
+
             "projectId" => array(
                 "type" => "integer",
                 "location" => "uri",
                 "description" => "The ID of the project the Order is associated with.",
-                "required" => false,            
+                "required" => false,
             ),
-            
+
             "departmentId" => array(
                 "type" => "integer",
                 "location" => "uri",
                 "description" => "The ID of the department the Order is associated with.",
-                "required" => false,            
+                "required" => false,
             ),
-            
+
             "leadSourceId" => array(
                 "type" => "integer",
                 "location" => "uri",
                 "description" => "The ID of the lead source the Order is associated with.",
-                "required" => false,            
+                "required" => false,
             ),
-            
+
             "isClone" => array(
                 "type" => "boolean",
                 "location" => "uri",
                 "description" => "Whether the order is a clone or not.",
-                "required" => false,            
+                "required" => false,
             ),
-            
+
         ),
 
     ),

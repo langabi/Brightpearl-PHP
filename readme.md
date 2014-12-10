@@ -1,4 +1,4 @@
-Brightpearl API wrapper using GuzzleHttp (4.2)
+Brightpearl PHP API wrapper using Guzzle 5
 ==============================================
 [![Build Status](https://travis-ci.org/TheGenieLab/Brightpearl-PHP.svg)](https://travis-ci.org/TheGenieLab/Brightpearl-PHP)
 
@@ -13,7 +13,7 @@ Installation
 
 ```json
     "require": {
-        "thegenielab/brightpearl": "0.2.*"
+        "thegenielab/brightpearl": "0.3.*"
     }
 ```
 
