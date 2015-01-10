@@ -72,6 +72,8 @@ $client = Brightpearl::settings([
             ]);
 // example call
 $response = $client->getOrder(['id' => '1']);
+// or even just
+$response = Brightpearl::getOrder(['id' => '1']);
 ```
 
 Services
