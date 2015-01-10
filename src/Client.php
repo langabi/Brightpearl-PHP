@@ -13,7 +13,7 @@ class Client
      *
      * @var string
      */
-    const API_VERSION = '2.0.0';
+    const API_VERSION = 'public-api';
 
     /**
      * Guzzle service description
