@@ -37,6 +37,28 @@ return array(
         ),
 
         /**
+         *    optionsProduct() method
+         *
+         *    reference: https://www.brightpearl.com/developer/latest/product/product/options.html
+         */
+        "optionsProduct" => array(
+            "httpMethod" => "OPTIONS",
+            "uri" => "/{apiVersion}/{account_code}/product-service/product/{id}",
+            "summary" => "Retrieve URLs for retrieving product(s)",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+
+                "id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "Product id(s)",
+                    "required" => false,
+                ),
+
+            ),
+        ),
+
+        /**
          *    postProduct() method
          *
          *    reference: https://www.brightpearl.com/developer/latest/product/product/post.html
@@ -312,7 +334,7 @@ return array(
         "getProductSearch" => array(
             "httpMethod" => "GET",
             "uri" => "/{apiVersion}/{account_code}/product-service/product-search",
-            "summary" => "Create product category",
+            "summary" => "Search products",
             "responseModel" => "defaultJsonResponse",
             "parameters" => array(
 
@@ -464,6 +486,28 @@ return array(
 
             ),
         ),
+
+        /**
+         *    getProductSupplier() method
+         *
+         *    reference: https://www.brightpearl.com/developer/latest/product/product%20supplier/get.html
+         */
+        "getProductSupplier" => array(
+            "httpMethod" => "GET",
+            "uri" => "/{apiVersion}/{account_code}/product-service/product/{id}/supplier",
+            "summary" => "Retrieve ID codes for product supplier(s)",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+
+                "id" => array(
+                    "type" => "string",
+                    "location" => "uri",
+                    "description" => "Product id",
+                    "required" => true,
+                ),
+
+            ),
+        ),
     ),
 
     /*
@@ -477,6 +521,5 @@ return array(
     */
 
     "models" => array(
-
     ),
 );

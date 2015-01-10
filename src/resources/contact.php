@@ -268,6 +268,84 @@ return array(
         ),
 
         /**
+         *    getContactSearch() method
+         *
+         *    reference: https://www.brightpearl.com/developer/latest/contact/contact/search.html
+         */
+        "getContactSearch" => array(
+            "httpMethod" => "GET",
+            "uri" => "/{apiVersion}/{account_code}/contact-service/contact-search",
+            "summary" => "Search contacts",
+            "responseModel" => "defaultJsonResponse",
+            "parameters" => array(
+
+                "allEmail" => array(
+                    "type" => "string",
+                    "location" => "query",
+                    "description" => "String contained (case insensitive) in any of the contact's email addresses",
+                    "required" => false,
+                ),
+
+                "primaryEmail" => array(
+                    "type" => "string",
+                    "location" => "query",
+                    "description" => "String contained in contact's primary email address",
+                    "required" => false,
+                ),
+
+                "secondaryEmail" => array(
+                    "type" => "string",
+                    "location" => "query",
+                    "description" => "String contained in contact's secondary email address",
+                    "required" => false,
+                ),
+
+                "tertiaryEmail" => array(
+                    "type" => "string",
+                    "location" => "query",
+                    "description" => "String contained in contact's tertiary email address",
+                    "required" => false,
+                ),
+
+                "firstName" => array(
+                    "type" => "string",
+                    "location" => "query",
+                    "description" => "String contained in contact's first name ",
+                    "required" => false,
+                ),
+
+                "lastName" => array(
+                    "type" => "string",
+                    "location" => "query",
+                    "description" => "String contained in contact's last name",
+                    "required" => false,
+                ),
+
+                "isSupplier" => array(
+                    "type" => "string",
+                    "location" => "query",
+                    "description" => "Whether the contact is a supplier (versus customer). 'true' or 'false'",
+                    "required" => false,
+                ),
+
+                "pageSize" => array(
+                    "type" => "integer",
+                    "location" => "query",
+                    "description" => "Set max results per page, default and max setting is 500",
+                    "required" => false,
+                ),
+
+                "firstResult" => array(
+                    "type" => "integer",
+                    "location" => "query",
+                    "description" => "Pagination pointer",
+                    "required" => false,
+                ),
+
+            ),
+        ),
+
+        /**
          *    getContactAddress() method
          *
          *    reference: https://www.brightpearl.com/developer/latest/contact/postal-address/get.html
